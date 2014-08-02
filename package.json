@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "webkit": "nw node-webkit/bin/app.nw",
   },
+  "main": "./node-webkit/views/index.html",
   "dependencies": {
     "body-parser": "~1.0.0",
     "cookie-parser": "~1.0.1",
