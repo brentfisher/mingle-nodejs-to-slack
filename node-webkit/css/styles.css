@@ -24,18 +24,23 @@
 #wrapper .right-border {
   border-right: 3px solid #000;
 }
-.cards-wrapper {
+#cards-wrapper {
   height: 100%;
 }
 
-.cards-wrapper .lane {
+#cards-wrapper .lane {
   height: 100%;
 }
 
-.cards-wrapper .card {
+#cards-wrapper .lane.over {
+  background-color: #EEE;
+}
+
+#cards-wrapper .card {
   width: 200px;
   height: 100px;
   border: 2px solid #000;
   padding: 5px;
   margin: 5px;
 }
+
