@@ -7,28 +7,39 @@ document.onreadystatechange = function() {
 };
 
 function addDragAndDropListeners(cards, lanes) {
-  addCardListeners(cards);
-  addLaneListeners(lanes);
+  setUpCards(cards);
+  setUpLanes(lanes);
 };
 
-var addCardListeners = function (cards) {
+var setUpCards = function (cards) {
   Array.prototype.forEach.call(cards, function(card) {
-    card.addEventListener('dragstart', handleDragStart, false);
-    card.addEventListener('dragover', handleDragOver, false);
-    card.addEventListener('drop', handleDrop, false);
-    card.addEventListener('dragend', handleDragEnd, false);
+    addCardListeners(card);
   });
 };
 
-var addLaneListeners = function (lanes) {
+var setUpLanes = function (lanes) {
   Array.prototype.forEach.call(lanes, function(lane) {
-    lane.addEventListener('dragenter', handleDragEnter, false);
-    lane.addEventListener('dragleave', handleDragLeave, false);
+    addLaneListeners(lane);
   });
-};
+}
+
+var addLaneListeners = function (lane) {
+  lane.addEventListener('dragenter', handleDragEnter, false);
+  lane.addEventListener('dragleave', handleDragLeave, false);
+  lane.addEventListener('drop', handleDrop, false);
+  lane.addEventListener('dragover', handleDragOver, false);
+}
+
+var addCardListeners = function(card) {
+  card.addEventListener('dragstart', handleDragStart, false);
+  card.addEventListener('dragend', handleDragEnd, false);
+}
+
 
 function handleDragStart(e) {
-  this.style.opacity = '0.4';  // this / e.target is the source node.
+  this.style.opacity = '0.4';
+  var serializedObj = this.innerHTML;
+  e.dataTransfer.setData('text/element', serializedObj);
 }
 
 function handleDragOver(e) {
@@ -50,21 +61,32 @@ function handleDragLeave(e) {
   this.classList.remove('over');  // this / e.target is previous target element.
 }
 
-
 function handleDrop(e) {
   // this / e.target is current target element.
 
   if (e.stopPropagation) {
     e.stopPropagation(); // stops the browser from redirecting.
   }
+  this.classList.remove('over');
 
   // See the section on the DataTransfer object.
+  console.log('drop');
+  var cardData = e.dataTransfer.getData('text/element')
+  moveCard(cardData, this);
 
   return false;
 }
 
 function handleDragEnd(e) {
-  // this/e.target is the source node.
-  this.style.opacity = '1.0';
+  this.parentElement.removeChild(this);
 }
 
+function moveCard(cardData, lane) {
+  var element = document.createElement("div");
+  element.classList.add("card");
+  element.draggable = true;
+  element.innerHTML = cardData;
+
+  addCardListeners(element);
+  lane.appendChild(element);
+}
