@@ -35,7 +35,6 @@ var addCardListeners = function(card) {
   card.addEventListener('dragend', handleDragEnd, false);
 }
 
-
 function handleDragStart(e) {
   this.style.opacity = '0.4';
   var serializedObj = this.innerHTML;
@@ -46,31 +45,26 @@ function handleDragOver(e) {
   if (e.preventDefault) {
     e.preventDefault(); // Necessary. Allows us to drop.
   }
-
-  e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
-
+  e.dataTransfer.dropEffect = 'move';
   return false;
 }
 
 function handleDragEnter(e) {
-  // this / e.target is the current hover target.
   this.classList.add('over');
 }
 
 function handleDragLeave(e) {
-  this.classList.remove('over');  // this / e.target is previous target element.
+  this.classList.remove('over');
 }
 
 function handleDrop(e) {
-  // this / e.target is current target element.
+  console.log('drop');
 
   if (e.stopPropagation) {
     e.stopPropagation(); // stops the browser from redirecting.
   }
   this.classList.remove('over');
 
-  // See the section on the DataTransfer object.
-  console.log('drop');
   var cardData = e.dataTransfer.getData('text/element')
   moveCard(cardData, this);
 
