@@ -11,29 +11,6 @@ function addDragAndDropListeners(cards, lanes) {
   setUpLanes(lanes);
 };
 
-var setUpCards = function (cards) {
-  Array.prototype.forEach.call(cards, function(card) {
-    addCardListeners(card);
-  });
-};
-
-var setUpLanes = function (lanes) {
-  Array.prototype.forEach.call(lanes, function(lane) {
-    addLaneListeners(lane);
-  });
-}
-
-var addLaneListeners = function (lane) {
-  lane.addEventListener('dragenter', handleDragEnter, false);
-  lane.addEventListener('dragleave', handleDragLeave, false);
-  lane.addEventListener('drop', handleDrop, false);
-  lane.addEventListener('dragover', handleDragOver, false);
-}
-
-var addCardListeners = function(card) {
-  card.addEventListener('dragstart', handleDragStart, false);
-  card.addEventListener('dragend', handleDragEnd, false);
-}
 
 function handleDragStart(e) {
   this.style.opacity = '0.4';
@@ -75,7 +52,7 @@ function handleDragEnd(e) {
   this.parentElement.removeChild(this);
 }
 
-function moveCard(cardData, lane) {
+var moveCard = function(cardData, lane) {
   var element = document.createElement("div");
   element.classList.add("card");
   element.draggable = true;
@@ -83,4 +60,28 @@ function moveCard(cardData, lane) {
 
   addCardListeners(element);
   lane.appendChild(element);
+}
+
+var setUpCards = function (cards) {
+  Array.prototype.forEach.call(cards, function(card) {
+    addCardListeners(card);
+  });
+};
+
+var setUpLanes = function (lanes) {
+  Array.prototype.forEach.call(lanes, function(lane) {
+    addLaneListeners(lane);
+  });
+}
+
+var addLaneListeners = function (lane) {
+  lane.addEventListener('dragenter', handleDragEnter, false);
+  lane.addEventListener('dragleave', handleDragLeave, false);
+  lane.addEventListener('drop', handleDrop, false);
+  lane.addEventListener('dragover', handleDragOver, false);
+}
+
+var addCardListeners = function(card) {
+  card.addEventListener('dragstart', handleDragStart, false);
+  card.addEventListener('dragend', handleDragEnd, false);
 }
